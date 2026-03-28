@@ -41,7 +41,7 @@ class Program
                             .Select(item => item.GetProperty("ExchangeInstrumentID").GetInt64())
                             .ToList();
 
-                var res = await xt.GetOhlcAsync(
+                var response_1 = await xt.GetOhlcAsync(
                     exchangeSegment: 1,  // For NSECM
                     exchangeInstrumentID: eqIds[0],
                     startTime: "Mar 27 2025 090000",
@@ -49,10 +49,68 @@ class Program
                     compressionValue: 14400
                 );
 
-                var resultElement = res["result"];
-                Console.WriteLine($"OHLC Data for : {top_5_nifty[i]} is {resultElement}");
+                var response_2 = (System.Text.Json.JsonElement)response_1["result"]!;
+                string ohlc_data = response_2
+                                    .GetProperty("dataReponse")
+                                    .GetString();
+                string[] parts = ohlc_data.Split('|');
+                string open = parts[1];
+                string high = parts[2];
+                string low = parts[3];
+                string close = parts[4];
+
+                Console.WriteLine($"OHLC Data for : {top_5_nifty[i]} \nOpen: {open}, High: {high}, Low: {low}, Close: {close}\n");
             }
 
+            List<string> future_options_symbol = new List<string> {"HDFCBANK", "NIFTY"};
+            List<string> future_options_series = new List<string> {"FUTSTK", "FUTIDX"};
+            for(int i=0; i<2; i++)
+            {
+                var expiry_dates = await xt.GetExpiryDateAsync(
+                    exchangeSegment: 2,      // NSEFO
+                    series: future_options_series[i], 
+                    symbol: future_options_symbol[i]
+                );
+
+                var resultElement = (System.Text.Json.JsonElement)expiry_dates["result"]!;
+                var expiry_dates_list = resultElement.EnumerateArray()
+                                                    .Select(d => d.GetString())
+                                                    .ToList();
+                
+                var dates = expiry_dates_list.Select(DateTime.Parse).ToList();
+                int targetMonth = 3;    // since current month is March
+                var nearestToMarch = dates
+                                    .OrderBy(d => Math.Abs(d.Month - targetMonth))
+                                    .First().ToString("ddMMMyyyy");
+
+                var response_1 = await xt.GetFutureSymbolAsync(
+                    exchangeSegment: 2, 
+                    series: future_options_series[i], 
+                    symbol: future_options_symbol[i], 
+                    expiryDate: nearestToMarch
+                );
+                
+                var response_2 = (System.Text.Json.JsonElement)response_1["result"]!;
+                long instrumentId = response_2[0]
+                                    .GetProperty("ExchangeInstrumentID")
+                                    .GetInt64();
+
+                var response_3 = await xt.GetOhlcAsync(
+                    exchangeSegment: 2,  // For NSEFO
+                    exchangeInstrumentID: instrumentId,
+                    startTime: "Feb 27 2025 090000",
+                    endTime: "Apr 1 2025 130000",
+                    compressionValue: 60
+                );
+
+                var response_4 = (System.Text.Json.JsonElement)response_3["result"]!;
+                string ohlc_data = response_4
+                                    .GetProperty("dataReponse")
+                                    .GetString();
+
+                Console.WriteLine($"F&O Price Data for nearest month of {top_5_nifty[i]} :\n{ohlc_data}\n");
+                Console.WriteLine(nearestToMarch);
+            }
 
             // Logout
             await xt.MarketdataLogoutAsync();

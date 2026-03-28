@@ -537,6 +537,44 @@
           }
         }
       },
+      "SocketIOClient/4.0.3": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "10.0.3",
+          "Microsoft.Extensions.Logging": "10.0.3",
+          "SocketIOClient.Common": "4.0.0",
+          "SocketIOClient.Serializer": "4.0.0.1",
+          "System.Net.Http": "4.3.4",
+          "System.Text.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/SocketIOClient.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SocketIOClient.dll": {}
+        }
+      },
+      "SocketIOClient.Common/4.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SocketIOClient.Common.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SocketIOClient.Common.dll": {}
+        }
+      },
+      "SocketIOClient.Serializer/4.0.0.1": {
+        "type": "package",
+        "dependencies": {
+          "SocketIOClient.Common": "4.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/SocketIOClient.Serializer.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SocketIOClient.Serializer.dll": {}
+        }
+      },
       "Sprache/2.3.1": {
         "type": "package",
         "dependencies": {
@@ -2448,6 +2486,47 @@
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
         "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.nuspec",
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
+      ]
+    },
+    "SocketIOClient/4.0.3": {
+      "sha512": "2vR9j7H0OyP32nYnRW66gOe2xqUhbZ4KTuVgTX7hoMnf0p2g22OBv9JF495UvR9bILYIUcL91kJTLBvq935BjQ==",
+      "type": "package",
+      "path": "socketioclient/4.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "README.zh.md",
+        "lib/net8.0/SocketIOClient.dll",
+        "lib/netstandard2.0/SocketIOClient.dll",
+        "socketioclient.4.0.3.nupkg.sha512",
+        "socketioclient.nuspec"
+      ]
+    },
+    "SocketIOClient.Common/4.0.0": {
+      "sha512": "7wlg0hMX5/k+fZejclVR7aKSj+Q37KCmVrKPIjZV+9z/odb11hZ4L+a0T3cV1w1jicTBWFEKvjWfWh6YKtz9Qg==",
+      "type": "package",
+      "path": "socketioclient.common/4.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net8.0/SocketIOClient.Common.dll",
+        "lib/netstandard2.0/SocketIOClient.Common.dll",
+        "socketioclient.common.4.0.0.nupkg.sha512",
+        "socketioclient.common.nuspec"
+      ]
+    },
+    "SocketIOClient.Serializer/4.0.0.1": {
+      "sha512": "+p1xnwSkX8UQQLgqr2Em6dIATl5pR7awHj1nbaRd/9aA2iAHGgy7HsseN8eblv3NHlPtTP9Y3IFDl5JKfWSYjg==",
+      "type": "package",
+      "path": "socketioclient.serializer/4.0.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net8.0/SocketIOClient.Serializer.dll",
+        "lib/netstandard2.0/SocketIOClient.Serializer.dll",
+        "socketioclient.serializer.4.0.0.1.nupkg.sha512",
+        "socketioclient.serializer.nuspec"
       ]
     },
     "Sprache/2.3.1": {
@@ -5708,7 +5787,8 @@
     "net7.0": [
       "DotNetEnv >= 3.1.1",
       "Microsoft.Extensions.Logging >= 10.0.5",
-      "Microsoft.Extensions.Logging.Console >= 10.0.5"
+      "Microsoft.Extensions.Logging.Console >= 10.0.5",
+      "SocketIOClient >= 4.0.3"
     ]
   },
   "packageFolders": {
@@ -5759,6 +5839,10 @@
           "Microsoft.Extensions.Logging.Console": {
             "target": "Package",
             "version": "[10.0.5, )"
+          },
+          "SocketIOClient": {
+            "target": "Package",
+            "version": "[4.0.3, )"
           }
         },
         "imports": [

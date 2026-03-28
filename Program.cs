@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using DotNetEnv;
 using XtsApiClient;
+using MarketSocket;
 
 class Program
 {
@@ -116,12 +117,29 @@ class Program
                 Console.WriteLine($"F&O Price Data saved in {fileName}");
             }
 
-            // Logout
-            await xt.MarketdataLogoutAsync();
+            Console.WriteLine("Start");
+            var handler = new MarketDataSocketClient();
+            var obj = new XTSMarketDataSocketClient(xt.Token, xt.UserID, API_root, handler);
+            await obj.Connect();
+
+            Console.WriteLine("Socket connected. Press Enter to disconnect and logout...");
+            Console.ReadLine();
         }
         catch (Exception e)
         {
             Console.WriteLine("Error: " + e.Message);
-        }            
+        }
+        finally
+        {
+            try
+            {
+                await xt.MarketdataLogoutAsync();
+                Console.WriteLine("Logged out successfully.");
+            }
+            catch (Exception logoutEx)
+            {
+                Console.WriteLine("Logout error: " + logoutEx.Message);
+            }
+        }          
     }
 }

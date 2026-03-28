@@ -537,42 +537,57 @@
           }
         }
       },
-      "SocketIOClient/4.0.3": {
+      "SocketIO.Core/3.1.1": {
         "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection": "10.0.3",
-          "Microsoft.Extensions.Logging": "10.0.3",
-          "SocketIOClient.Common": "4.0.0",
-          "SocketIOClient.Serializer": "4.0.0.1",
-          "System.Net.Http": "4.3.4",
-          "System.Text.Json": "10.0.3"
-        },
         "compile": {
-          "lib/netstandard2.0/SocketIOClient.dll": {}
+          "lib/netstandard2.0/SocketIO.Core.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/SocketIOClient.dll": {}
+          "lib/netstandard2.0/SocketIO.Core.dll": {}
         }
       },
-      "SocketIOClient.Common/4.0.0": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/SocketIOClient.Common.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/SocketIOClient.Common.dll": {}
-        }
-      },
-      "SocketIOClient.Serializer/4.0.0.1": {
+      "SocketIO.Serializer.Core/3.1.1": {
         "type": "package",
         "dependencies": {
-          "SocketIOClient.Common": "4.0.0"
+          "SocketIO.Core": "3.1.1"
         },
         "compile": {
-          "lib/netstandard2.0/SocketIOClient.Serializer.dll": {}
+          "lib/netstandard2.0/SocketIO.Serializer.Core.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/SocketIOClient.Serializer.dll": {}
+          "lib/netstandard2.0/SocketIO.Serializer.Core.dll": {}
+        }
+      },
+      "SocketIO.Serializer.SystemTextJson/3.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SocketIO.Core": "3.1.1",
+          "SocketIO.Serializer.Core": "3.1.1",
+          "System.Text.Json": "7.0.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/SocketIO.Serializer.SystemTextJson.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SocketIO.Serializer.SystemTextJson.dll": {}
+        }
+      },
+      "SocketIOClient/3.1.1": {
+        "type": "package",
+        "dependencies": {
+          "SocketIO.Serializer.Core": "3.1.1",
+          "SocketIO.Serializer.SystemTextJson": "3.1.1",
+          "System.Collections": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/SocketIOClient.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/SocketIOClient.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Sprache/2.3.1": {
@@ -2488,45 +2503,55 @@
         "runtimes/ubuntu.16.10-x64/native/System.Security.Cryptography.Native.OpenSsl.so"
       ]
     },
-    "SocketIOClient/4.0.3": {
-      "sha512": "2vR9j7H0OyP32nYnRW66gOe2xqUhbZ4KTuVgTX7hoMnf0p2g22OBv9JF495UvR9bILYIUcL91kJTLBvq935BjQ==",
+    "SocketIO.Core/3.1.1": {
+      "sha512": "L5GSyODDjlub5YdDxfsRtA9uxBNw1Hs/egEMhdOGFyD0c63VmvWQ1A4Gfc4GYKYInz1muP4C8QNblXErnUYDqA==",
       "type": "package",
-      "path": "socketioclient/4.0.3",
+      "path": "socketio.core/3.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "README.md",
-        "README.zh.md",
-        "lib/net8.0/SocketIOClient.dll",
+        "lib/netstandard2.0/SocketIO.Core.dll",
+        "socketio.core.3.1.1.nupkg.sha512",
+        "socketio.core.nuspec"
+      ]
+    },
+    "SocketIO.Serializer.Core/3.1.1": {
+      "sha512": "aFanlt2GOGEy7GTGLyh8f8SwhtmQwoPOHTAYCQ0brjg05Nb3F38sk4hYogpII5imyZ7w0spqwNHwpl7FZ49HOA==",
+      "type": "package",
+      "path": "socketio.serializer.core/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/SocketIO.Serializer.Core.dll",
+        "socketio.serializer.core.3.1.1.nupkg.sha512",
+        "socketio.serializer.core.nuspec"
+      ]
+    },
+    "SocketIO.Serializer.SystemTextJson/3.1.1": {
+      "sha512": "1PKQ+hOAJ4l3ZXlrVgiB3uNY3kLhjzYjnxk/97V6npJrNmhq09Di2EQSpGweQMu6KPbOxjZ7eYVARkGTWIUsjg==",
+      "type": "package",
+      "path": "socketio.serializer.systemtextjson/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/SocketIO.Serializer.SystemTextJson.dll",
+        "socketio.serializer.systemtextjson.3.1.1.nupkg.sha512",
+        "socketio.serializer.systemtextjson.nuspec"
+      ]
+    },
+    "SocketIOClient/3.1.1": {
+      "sha512": "g8Lauia1Cj5DBXeC9j6vDSJeQEboGmXsnduW06VOBMe+UgqCrenxszYXJg19rAjwO10XRWQorOuU1XNMfYo8Xg==",
+      "type": "package",
+      "path": "socketioclient/3.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/SocketIOClient.dll",
+        "lib/net462/SocketIOClient.xml",
         "lib/netstandard2.0/SocketIOClient.dll",
-        "socketioclient.4.0.3.nupkg.sha512",
+        "lib/netstandard2.0/SocketIOClient.xml",
+        "socketioclient.3.1.1.nupkg.sha512",
         "socketioclient.nuspec"
-      ]
-    },
-    "SocketIOClient.Common/4.0.0": {
-      "sha512": "7wlg0hMX5/k+fZejclVR7aKSj+Q37KCmVrKPIjZV+9z/odb11hZ4L+a0T3cV1w1jicTBWFEKvjWfWh6YKtz9Qg==",
-      "type": "package",
-      "path": "socketioclient.common/4.0.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/SocketIOClient.Common.dll",
-        "lib/netstandard2.0/SocketIOClient.Common.dll",
-        "socketioclient.common.4.0.0.nupkg.sha512",
-        "socketioclient.common.nuspec"
-      ]
-    },
-    "SocketIOClient.Serializer/4.0.0.1": {
-      "sha512": "+p1xnwSkX8UQQLgqr2Em6dIATl5pR7awHj1nbaRd/9aA2iAHGgy7HsseN8eblv3NHlPtTP9Y3IFDl5JKfWSYjg==",
-      "type": "package",
-      "path": "socketioclient.serializer/4.0.0.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net8.0/SocketIOClient.Serializer.dll",
-        "lib/netstandard2.0/SocketIOClient.Serializer.dll",
-        "socketioclient.serializer.4.0.0.1.nupkg.sha512",
-        "socketioclient.serializer.nuspec"
       ]
     },
     "Sprache/2.3.1": {
@@ -5788,23 +5813,23 @@
       "DotNetEnv >= 3.1.1",
       "Microsoft.Extensions.Logging >= 10.0.5",
       "Microsoft.Extensions.Logging.Console >= 10.0.5",
-      "SocketIOClient >= 4.0.3"
+      "SocketIOClient >= 3.1.1"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\dell\\.nuget\\packages\\": {}
+    "C:\\Users\\devan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj",
+      "projectUniqueName": "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj",
       "projectName": "MyProject",
-      "projectPath": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj",
-      "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\obj\\",
+      "projectPath": "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj",
+      "packagesPath": "C:\\Users\\devan\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\devan\\Raunak_C\\MyProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\dell\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\devan\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -5822,11 +5847,6 @@
         "warnAsError": [
           "NU1605"
         ]
-      },
-      "restoreAuditProperties": {
-        "enableAudit": "true",
-        "auditLevel": "low",
-        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -5847,7 +5867,7 @@
           },
           "SocketIOClient": {
             "target": "Package",
-            "version": "[4.0.3, )"
+            "version": "[3.1.1, )"
           }
         },
         "imports": [
@@ -5861,30 +5881,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[7.0.17, 7.0.17]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[7.0.17, 7.0.17]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[7.0.17, 7.0.17]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[7.0.17, 7.0.17]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

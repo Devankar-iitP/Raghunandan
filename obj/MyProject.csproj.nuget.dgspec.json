@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj": {}
+    "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj": {
+    "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj",
+        "projectUniqueName": "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj",
         "projectName": "MyProject",
-        "projectPath": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\MyProject.csproj",
-        "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\dell\\Downloads\\CPP\\C#\\Raghunandan-1\\obj\\",
+        "projectPath": "C:\\Users\\devan\\Raunak_C\\MyProject\\MyProject.csproj",
+        "packagesPath": "C:\\Users\\devan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\devan\\Raunak_C\\MyProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\dell\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\devan\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
@@ -32,11 +32,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -57,7 +52,7 @@
             },
             "SocketIOClient": {
               "target": "Package",
-              "version": "[4.0.3, )"
+              "version": "[3.1.1, )"
             }
           },
           "imports": [
@@ -71,30 +66,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.17, 7.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.17, 7.0.17]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.17, 7.0.17]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.17, 7.0.17]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

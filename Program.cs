@@ -73,21 +73,16 @@ class Program
                 );
 
                 var resultElement = (System.Text.Json.JsonElement)expiry_dates["result"]!;
-                var expiry_dates_list = resultElement.EnumerateArray()
-                                                    .Select(d => d.GetString())
-                                                    .ToList();
+                var nearest_date_future = resultElement.EnumerateArray()
+                                            .Select(d => DateTime.Parse(d.GetString()!))
+                                            .Where(d => d.Date > DateTime.Today)
+                                            .Min().ToString("ddMMMyyyy");
                 
-                var dates = expiry_dates_list.Select(DateTime.Parse).ToList();
-                int targetMonth = 3;    // since current month is March
-                var nearestToMarch = dates
-                                    .OrderBy(d => Math.Abs(d.Month - targetMonth))
-                                    .First().ToString("ddMMMyyyy");
-
                 var response_1 = await xt.GetFutureSymbolAsync(
                     exchangeSegment: 2, 
                     series: future_options_series[i], 
                     symbol: future_options_symbol[i], 
-                    expiryDate: nearestToMarch
+                    expiryDate: nearest_date_future
                 );
                 
                 var response_2 = (System.Text.Json.JsonElement)response_1["result"]!;
@@ -98,8 +93,8 @@ class Program
                 var response_3 = await xt.GetOhlcAsync(
                     exchangeSegment: 2,  // For NSEFO
                     exchangeInstrumentID: instrumentId,
-                    startTime: "Feb 27 2025 090000",
-                    endTime: "Apr 1 2025 130000",
+                    startTime: "Mar 1 2026 000000",
+                    endTime: "Mar 30 2026 200000",
                     compressionValue: 60
                 );
 
@@ -107,9 +102,18 @@ class Program
                 string ohlc_data = response_4
                                     .GetProperty("dataReponse")
                                     .GetString();
+                var csv_data = ohlc_data.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(r => {
+                                        var parts = r.Split('|');
+                                        if (long.TryParse(parts[0], out long unixTime))
+                                            parts[0] = DateTimeOffset.FromUnixTimeSeconds(unixTime).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss");
+                                        
+                                        return string.Join(",", parts).TrimEnd(',');
+                                    }).Prepend("Timestamp,          Open, High, Low, Close, Volume, Open Interest");
 
-                Console.WriteLine($"F&O Price Data for nearest month of {top_5_nifty[i]} :\n{ohlc_data}\n");
-                Console.WriteLine(nearestToMarch);
+                string fileName = $"F&O_price_{future_options_symbol[i]}.csv";
+                System.IO.File.WriteAllLines(fileName, csv_data);
+                Console.WriteLine($"F&O Price Data saved in {fileName}");
             }
 
             // Logout

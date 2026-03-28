@@ -9,9 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace XtsApiClient
 {
-    /// <summary>
-    /// Base variables class — holds session state after login.
-    /// </summary>
+    // Base variables class — holds session state after login.
     public class XtsCommon
     {
         public string? Token { get; protected set; }
@@ -26,9 +24,7 @@ namespace XtsApiClient
         }
     }
 
-    /// <summary>
-    /// The XTS Connect API wrapper class (async).
-    /// </summary>
+    // The XTS Connect API wrapper class (async).
     public class XtsConnect : XtsCommon
     {
         // ── Products ─────────────────────────────────────────────────────────
@@ -96,8 +92,6 @@ namespace XtsApiClient
         };
 
         // ── Private fields ────────────────────────────────────────────────────
-        string apiKey = Environment.GetEnvironmentVariable("API_KEY");
-
         private readonly ILogger<XtsConnect> _logger;
         private readonly HttpClient _httpClient;
         private readonly string _root;
@@ -118,10 +112,10 @@ namespace XtsApiClient
             ILogger<XtsConnect>? logger = null)
             : base()
         {
-            _apiKey    = Environment.GetEnvironmentVariable("API_KEY");
-            _secretKey = Environment.GetEnvironmentVariable("API_SECRET");
-            _source    = Environment.GetEnvironmentVariable("API_SOURCE");
-            _root      = Environment.GetEnvironmentVariable("API_URL");
+            _apiKey    = apiKey;
+            _secretKey = secretKey;
+            _source    = source;
+            _root      = root;
             _debug     = debug;
             _logger    = logger ?? LoggerFactory.Create(b => b.AddConsole()).CreateLogger<XtsConnect>();
 
@@ -135,10 +129,7 @@ namespace XtsApiClient
             };
         }
 
-        // ────────────────────────────────────────────────────────────────────
         // Internal helpers
-        // ────────────────────────────────────────────────────────────────────
-
         private void SetCommonVariables(string accessToken, string userID, bool isInvestorClient)
         {
             Token           = accessToken;
@@ -146,10 +137,7 @@ namespace XtsApiClient
             IsInvestorClient = isInvestorClient;
         }
 
-        /// <summary>
-        /// Centralised response handler. Returns the response dictionary on success,
-        /// throws on error.
-        /// </summary>
+        // Centralised response handler. Returns the response dictionary on success, throws on error.
         private Dictionary<string, object?> HandleResponse(Dictionary<string, object?> response, string operation)
         {
             if (response.TryGetValue("type", out var type))
@@ -174,9 +162,7 @@ namespace XtsApiClient
             throw new Exception(fallback);
         }
 
-        /// <summary>
-        /// Adds clientID to the params dict based on IsInvestorClient flag.
-        /// </summary>
+        // Adds clientID to the params dict based on IsInvestorClient flag.
         private Dictionary<string, object?> AddClientId(Dictionary<string, object?> p, string clientID = "*****")
         {
             p["clientID"] = (IsInvestorClient == true)
@@ -201,9 +187,7 @@ namespace XtsApiClient
         private Task<Dictionary<string, object?>> DeleteAsync(string route, Dictionary<string, object?>? p = null)
             => RequestAsync(route, HttpMethod.Delete, p);
 
-        /// <summary>
-        /// Core HTTP request dispatcher.
-        /// </summary>
+        // Core HTTP request dispatcher.
         private async Task<Dictionary<string, object?>> RequestAsync(
             string route, HttpMethod method, object? parameters = null)
         {
@@ -284,9 +268,9 @@ namespace XtsApiClient
             return data;
         }
 
-        /// <summary>
-        /// Builds a URL-encoded query string from a dictionary.
-        /// </summary>
+        // <summary>
+        // Builds a URL-encoded query string from a dictionary.
+        // </summary>
         private static string BuildQueryString(Dictionary<string, object?> p)
         {
             var parts = new List<string>();
@@ -330,7 +314,7 @@ namespace XtsApiClient
             throw new Exception("Unexpected API response format.");
         }
 
-        /// <summary>Log out from the market data API.</summary>
+        // <summary>Log out from the market data API.</summary>
         public async Task<Dictionary<string, object?>> MarketdataLogoutAsync()
         {
             var response = await DeleteAsync("market.logout");
@@ -342,11 +326,11 @@ namespace XtsApiClient
         // Market Data API — Configuration & Quotes
         // ────────────────────────────────────────────────────────────────────
 
-        /// <summary>Get client configuration.</summary>
+        // <summary>Get client configuration.</summary>
         public async Task<Dictionary<string, object?>> GetConfigAsync()
             => HandleResponse(await GetAsync("market.config"), "Get Config");
 
-        /// <summary>Get live quote for instruments.</summary>
+        // <summary>Get live quote for instruments.</summary>
         public async Task<Dictionary<string, object?>> GetQuoteAsync(
             object instruments, int xtsMessageCode, string publishFormat)
         {
@@ -363,10 +347,10 @@ namespace XtsApiClient
         // Market Data API — Subscriptions
         // ────────────────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Subscribe to live market data for a list of instruments.
-        /// xtsMessageCode examples: 1501=Touchline, 1502=MarketDepth, 1512=LTP.
-        /// </summary>
+        // <summary>
+        // Subscribe to live market data for a list of instruments.
+        // xtsMessageCode examples: 1501=Touchline, 1502=MarketDepth, 1512=LTP.
+        // </summary>
         public async Task<Dictionary<string, object?>> SendSubscriptionAsync(
             List<Dictionary<string, int>> instruments, int xtsMessageCode)
         {
@@ -378,7 +362,7 @@ namespace XtsApiClient
             return HandleResponse(await PostAsync("market.instruments.subscription", p), "Send Subscription");
         }
 
-        /// <summary>Unsubscribe from market data for a list of instruments.</summary>
+        // <summary>Unsubscribe from market data for a list of instruments.</summary>
         public async Task<Dictionary<string, object?>> SendUnsubscriptionAsync(
             List<Dictionary<string, int>> instruments, int xtsMessageCode)
         {
@@ -394,14 +378,14 @@ namespace XtsApiClient
         // Market Data API — Instruments
         // ────────────────────────────────────────────────────────────────────
 
-        /// <summary>Download instrument master for given exchange segments.</summary>
+        // <summary>Download instrument master for given exchange segments.</summary>
         public async Task<Dictionary<string, object?>> GetMasterAsync(List<int> exchangeSegmentList)
         {
             var p = new Dictionary<string, object?> { ["exchangeSegmentList"] = exchangeSegmentList };
             return HandleResponse(await PostAsync("market.instruments.master", p), "Get Master");
         }
 
-        /// <summary>Retrieve historical OHLC candle data.</summary>
+        // <summary>Retrieve historical OHLC candle data.</summary>
         public async Task<Dictionary<string, object?>> GetOhlcAsync(
             int    exchangeSegment,
             long   exchangeInstrumentID,
@@ -420,21 +404,21 @@ namespace XtsApiClient
             return HandleResponse(await GetAsync("market.instruments.ohlc", p), "Get OHLC");
         }
 
-        /// <summary>Get the index list for an exchange segment.</summary>
+        // <summary>Get the index list for an exchange segment.</summary>
         public async Task<Dictionary<string, object?>> GetIndexListAsync(int exchangeSegment)
         {
             var p = new Dictionary<string, object?> { ["exchangeSegment"] = exchangeSegment };
             return HandleResponse(await GetAsync("market.instruments.indexlist", p), "Get Index List");
         }
 
-        /// <summary>Get series list for an exchange segment.</summary>
+        // <summary>Get series list for an exchange segment.</summary>
         public async Task<Dictionary<string, object?>> GetSeriesAsync(int exchangeSegment)
         {
             var p = new Dictionary<string, object?> { ["exchangeSegment"] = exchangeSegment };
             return HandleResponse(await GetAsync("market.instruments.instrument.series", p), "Get Series");
         }
 
-        /// <summary>Get full equity symbol.</summary>
+        // <summary>Get full equity symbol.</summary>
         public async Task<Dictionary<string, object?>> GetEquitySymbolAsync(
             int exchangeSegment, string series, string symbol)
         {
@@ -447,7 +431,7 @@ namespace XtsApiClient
             return HandleResponse(await GetAsync("market.instruments.instrument.equitysymbol", p), "Get Equity Symbol");
         }
 
-        /// <summary>Get expiry dates for an instrument.</summary>
+        // <summary>Get expiry dates for an instrument.</summary>
         public async Task<Dictionary<string, object?>> GetExpiryDateAsync(
             int exchangeSegment, string series, string symbol)
         {
@@ -460,7 +444,7 @@ namespace XtsApiClient
             return HandleResponse(await GetAsync("market.instruments.instrument.expirydate", p), "Get Expiry Date");
         }
 
-        /// <summary>Get future symbol for an instrument.</summary>
+        // <summary>Get future symbol for an instrument.</summary>
         public async Task<Dictionary<string, object?>> GetFutureSymbolAsync(
             int exchangeSegment, string series, string symbol, string expiryDate)
         {
@@ -474,7 +458,7 @@ namespace XtsApiClient
             return HandleResponse(await GetAsync("market.instruments.instrument.futuresymbol", p), "Get Future Symbol");
         }
 
-        /// <summary>Get option symbol for an instrument.</summary>
+        // <summary>Get option symbol for an instrument.</summary>
         public async Task<Dictionary<string, object?>> GetOptionSymbolAsync(
             int    exchangeSegment,
             string series,
@@ -495,7 +479,7 @@ namespace XtsApiClient
             return HandleResponse(await GetAsync("market.instruments.instrument.optionsymbol", p), "Get Option Symbol");
         }
 
-        /// <summary>Get available option types (CE/PE) for an instrument.</summary>
+        // <summary>Get available option types (CE/PE) for an instrument.</summary>
         public async Task<Dictionary<string, object?>> GetOptionTypeAsync(
             int exchangeSegment, string series, string symbol, string expiryDate)
         {
@@ -513,14 +497,14 @@ namespace XtsApiClient
         // Market Data API — Search
         // ────────────────────────────────────────────────────────────────────
 
-        /// <summary>
-        /// Search instruments by ID.
-        /// <code>
-        /// var instruments = new[] {
-        ///     new { exchangeSegment = 2, exchangeInstrumentID = 47631 }
-        /// };
-        /// </code>
-        /// </summary>
+        // <summary>
+        // Search instruments by ID.
+        // <code>
+        // var instruments = new[] {
+        //     new { exchangeSegment = 2, exchangeInstrumentID = 47631 }
+        // };
+        // </code>
+        // </summary>
         public async Task<Dictionary<string, object?>> SearchByInstrumentIdAsync(object instruments)
         {
             var p = new Dictionary<string, object?>
@@ -531,7 +515,7 @@ namespace XtsApiClient
             return HandleResponse(await PostAsync("market.search.instrumentsbyid", p), "Search by Instrument ID");
         }
 
-        /// <summary>Search instruments by script name / string.</summary>
+        // <summary>Search instruments by script name / string.</summary>
         public async Task<Dictionary<string, object?>> SearchByScriptnameAsync(string searchString)
         {
             var p = new Dictionary<string, object?> { ["searchString"] = searchString };
